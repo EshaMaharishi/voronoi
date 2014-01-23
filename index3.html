@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+
+.axis text {
+  font: 10px sans-serif;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.hexagon {
+  fill: none;
+  stroke: #fff;
+  stroke-width: 1px;
+}
+
+</style>
+<body>
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<script src="http://d3js.org/d3.hexbin.v0.min.js?5c6e4f0"></script>
+<script>
+
+var margin = {top: 20, right: 20, bottom: 30, left: 40},
+    width = 960 - margin.left - margin.right,
+    height = 600 - margin.top - margin.bottom;
+
+/********* ORIGINAL ******** 
+var randomX = d3.random.normal(width/2, width/16),
+    randomY = d3.random.normal(height/2, width/16);
+var points = d3.range(500).map(function() { return [randomX(), randomY()]; });
+***************************/
+
+d3.text("data.csv", function(error, _data){
+
+	var points = d3.csv.parseRows( _data );
+
+	var color = d3.scale.linear()
+		.domain([0, 20])
+		.range(["lightblue", "darkblue"])
+		.interpolate(d3.interpolateLab);
+
+	var hexbin = d3.hexbin()
+		.size([width, height])
+		.radius(10);
+
